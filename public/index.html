@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mark Lookup</title>
+    <link rel="stylesheet" href="/style.css"  />
+ 
+    <style class="vjs-styles-defaults">
+        
+  
+
+        .main1{
+            background-color: grey;
+            justify-content: center;
+            text-align: center;
+            padding: 100px;
+            margin: 100px;
+            font-size:xx-large;
+            /* display: flex; */
+            /* flex-direction: row-reverse; */
+        }
+          body{
+        font-size: xx-large;
+        }
+        label{
+            font-size:50px;
+            
+        }
+        button{
+            font-size: 50px;
+        }
+        input{
+            width: 400px;
+            height: 70px;
+            margin: 30px;
+        }
+
+      </style>
+
+</head>
+<body id="body">
+    <div class="main1" id="main1"  > 
+        <h1>نتيجة الثانوية العامة</h1>
+        <br>
+        <label for="idInput">أدخل رقم الجلوس</label>
+<br>
+        <input type="text" id="idInput">
+        <br>
+        <button onclick="getMark()">أحصل على النسبة المئوية</button>
+        <br>
+        <p id="result"></p>
+        
+    </div>
+
+    <script>
+        function getMark() {
+            const id = document.getElementById("idInput").value;
+            fetch(`/student/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("result").innerText = `
+                    الاسم : ${data.arabic_name}
+                    النسبة المئوية : %${(data.total_degree/410*100).toFixed(3)}
+                    الحالة : ${data.student_case_desc}
+                    الدرجة الكلية : ${data.total_degree}
+                    
+                    `;
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
+</body>
+</html>
+
